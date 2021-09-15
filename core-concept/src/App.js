@@ -47,7 +47,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem('itemsList', JSON.stringify(itemsList));
   }, [itemsList]);
-  console.log(itemsList, 'itemsList');
   return (
     <div className="App">
       <h1>My Todo List</h1>
