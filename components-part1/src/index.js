@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyle from './styledComponents/GlobalNomalized';
+import ErrorBoundary from './ErrorBoundary ';
 
 ReactDOM.render(
   <React.StrictMode>
     <React.Fragment>
       <GlobalStyle />
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </React.Fragment>
   </React.StrictMode>,
   document.getElementById('root')
