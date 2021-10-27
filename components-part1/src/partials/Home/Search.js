@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Logo from '../../components/Logo';
 import {
   SearchWrapper,
@@ -28,6 +29,10 @@ const Search = (props) => {
       </StyledSearchContainer>
     </SearchWrapper>
   );
+};
+
+Search.prototype = {
+  query: PropTypes.string.isRequired,
 };
 
 export default Search;

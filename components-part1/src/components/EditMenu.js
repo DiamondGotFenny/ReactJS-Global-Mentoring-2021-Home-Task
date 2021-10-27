@@ -2,13 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledMenu = styled.nav`
-  display: inline-flex;
+  display: ${({ open }) => (open ? 'inline-flex;' : 'none;')};
   flex-direction: column;
   justify-content: center;
   color: #fff;
   background: #effffa;
-  transform: ${({ open }) =>
-    open ? 'translate(4rem, -13rem)' : 'translateX(9999px)'};
+  transform: translate(4rem, -13rem);
   width: 190px;
   height: 111px;
   background: rgba(35, 35, 35, 0.918051);
