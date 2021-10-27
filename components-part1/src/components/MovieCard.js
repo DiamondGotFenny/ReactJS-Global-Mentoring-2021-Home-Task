@@ -90,7 +90,7 @@ const MovieCard = ({ movie }) => {
         <div />
         <div />
       </StyledDotsButton>
-      <EditMenu open={open} setOpen={setOpen} />
+      <EditMenu open={open} setOpen={setOpen} movie={movie} />
       <img src={poster_path} alt={title} />
       <BasicInfoWrapper>
         <title>{title}</title>

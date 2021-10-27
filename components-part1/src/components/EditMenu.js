@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ActiveMovieForm from './MovieModal';
 
 const StyledMenu = styled.nav`
   display: ${({ open }) => (open ? 'inline-flex;' : 'none;')};
@@ -36,13 +37,13 @@ const StyledMenu = styled.nav`
   z-index: 10;
 `;
 
-const EditMenu = ({ open, setOpen }) => {
+const EditMenu = ({ open, setOpen, movie }) => {
   return (
     <StyledMenu open={open}>
       <button className="close" onClick={() => setOpen(false)}>
         X
       </button>
-      <button>Edit</button>
+      <ActiveMovieForm movie={movie} />
       <button>Delete</button>
     </StyledMenu>
   );

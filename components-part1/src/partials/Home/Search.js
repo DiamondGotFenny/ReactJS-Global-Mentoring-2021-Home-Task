@@ -4,17 +4,17 @@ import Logo from '../../components/Logo';
 import {
   SearchWrapper,
   StyledHeader,
-  StyledAddMovieButton,
   StyledSearchTitle,
   StyledSearchContainer,
 } from '../../styledComponents/Search';
+import ActiveMovieForm from '../../components/MovieModal';
 
 const Search = (props) => {
   return (
     <SearchWrapper>
       <StyledHeader>
         <Logo />
-        <StyledAddMovieButton>+ ADD MOVIE</StyledAddMovieButton>
+        <ActiveMovieForm movie={null} />
       </StyledHeader>
       <StyledSearchTitle>FIND YOUR MOVIE</StyledSearchTitle>
       <StyledSearchContainer>
