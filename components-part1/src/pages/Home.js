@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Content from '../partials/Home/Content';
 import Footer from '../partials/Home/Footer';
 import Search from '../partials/Home/Search';
+import { moviesList } from '../mockData/MoviesList';
 import styled from 'styled-components';
 
 const HomeWrapper = styled.div`
@@ -10,10 +11,11 @@ const HomeWrapper = styled.div`
 `;
 
 const Home = () => {
+  const [movies, setMovies] = useState(moviesList);
   return (
     <HomeWrapper>
-      <Search />
-      <Content />
+      <Search movies={movies} setMovies={setMovies} />
+      <Content movies={movies} setMovies={setMovies} />
       <Footer />
     </HomeWrapper>
   );

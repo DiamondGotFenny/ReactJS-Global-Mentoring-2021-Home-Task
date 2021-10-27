@@ -2,7 +2,7 @@ export const moviesList = [
   {
     id: 1,
     title: 'The Shawshank Redemption',
-    release_date: 1994,
+    release_date: '1994-23-02',
     runtime: 142,
     rating: 9.3,
     genre: 'Crime, Drama',
@@ -14,7 +14,7 @@ export const moviesList = [
   {
     id: 2,
     title: 'The Godfather',
-    release_date: 1972,
+    release_date: '1972-03-24',
     runtime: 175,
     rating: 9.2,
     genre: 'Crime, Drama',
@@ -26,7 +26,7 @@ export const moviesList = [
   {
     id: 3,
     title: 'The Godfather: Part II',
-    release_date: 1974,
+    release_date: '1974-12-20',
     runtime: 202,
     rating: 9.0,
     genre: 'Crime, Drama',
@@ -38,7 +38,7 @@ export const moviesList = [
   {
     id: 4,
     title: 'The Dark Knight',
-    release_date: 2008,
+    release_date: '2008-07-18',
     runtime: 152,
     rating: 9.0,
     genre: 'Action, Crime, Drama',
@@ -50,7 +50,7 @@ export const moviesList = [
   {
     id: 5,
     title: 'Kill Bill: Vol. 1',
-    release_date: 2003,
+    release_date: '2003-10-10',
     runtime: 111,
     rating: 8.8,
     genre: 'Action, Crime, Thriller',
@@ -62,7 +62,7 @@ export const moviesList = [
   {
     id: 6,
     title: 'Pulp Fiction',
-    release_date: 1994,
+    release_date: '1994-10-14',
     runtime: 154,
     rating: 8.9,
     genre: 'Crime, Drama',
@@ -74,7 +74,7 @@ export const moviesList = [
   {
     id: 7,
     title: 'The Lord of the Rings: The Return of the King',
-    release_date: 2003,
+    release_date: '2003-12-17',
     runtime: 201,
     rating: 8.9,
     genre: 'Adventure, Drama, Fantasy',
@@ -86,7 +86,7 @@ export const moviesList = [
   {
     id: 8,
     title: 'The Lord of the Rings: The Fellowship of the Ring',
-    release_date: 2001,
+    release_date: '2001-12-19',
     runtime: 178,
     rating: 8.8,
     genre: 'Adventure, Drama, Fantasy',
@@ -98,7 +98,7 @@ export const moviesList = [
   {
     id: 9,
     title: 'Fight Club',
-    release_date: 1999,
+    release_date: '1999-10-15',
     runtime: 139,
     rating: 8.8,
     genre: 'Drama',

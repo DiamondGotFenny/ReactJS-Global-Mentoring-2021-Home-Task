@@ -76,21 +76,26 @@ const StyledDotsButton = styled.button`
     left: 0.6rem;
   }
 `;
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movies, movie, setMovies }) => {
   const { title, poster_path, genre, release_date } = movie;
   const [open, setOpen] = React.useState(false);
   return (
     <StyledCardContainer>
       <StyledDotsButton
-        className="menuButton"
+        className='menuButton'
         open={!open}
-        onClick={() => setOpen(true)}
-      >
+        onClick={() => setOpen(true)}>
         <div />
         <div />
         <div />
       </StyledDotsButton>
-      <EditMenu open={open} setOpen={setOpen} movie={movie} />
+      <EditMenu
+        open={open}
+        setOpen={setOpen}
+        movie={movie}
+        movies={movies}
+        setMovies={setMovies}
+      />
       <img src={poster_path} alt={title} />
       <BasicInfoWrapper>
         <title>{title}</title>

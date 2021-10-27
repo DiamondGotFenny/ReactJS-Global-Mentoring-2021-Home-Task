@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ActiveMovieForm from './MovieModal';
 
@@ -37,15 +37,33 @@ const StyledMenu = styled.nav`
   z-index: 10;
 `;
 
-const EditMenu = ({ open, setOpen, movie }) => {
+const EditMenu = ({ open, setOpen, movie, movies, setMovies }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+  const handleDelete = (id) => {
+    const newMovies = movies.filter((movie) => movie.id !== id);
+    setMovies(newMovies);
+  };
   return (
-    <StyledMenu open={open}>
-      <button className="close" onClick={() => setOpen(false)}>
-        X
-      </button>
-      <ActiveMovieForm movie={movie} />
-      <button>Delete</button>
-    </StyledMenu>
+    <>
+      <StyledMenu open={open}>
+        <button className='close' onClick={() => setOpen(false)}>
+          X
+        </button>
+        <button onClick={handleOpen}>Edit</button>
+        <button onClick={() => handleDelete(movie.id)}>Delete</button>
+      </StyledMenu>
+      <ActiveMovieForm
+        isOpen={isOpen}
+        handleClose={handleClose}
+        movie={movie}
+      />
+    </>
   );
 };
 

@@ -43,7 +43,7 @@ export const StyledAddMovieButton = styled.button`
   height: 46px;
   width: 177px;
   font-family: Montserrat;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: 24px;
