@@ -16,7 +16,7 @@ const StyledCardContainer = styled.div`
   /* identical to box height */
 
   color: #ffffff;
-
+  cursor: pointer;
   mix-blend-mode: normal;
   opacity: 0.7;
   margin: 26px;
@@ -76,15 +76,16 @@ const StyledDotsButton = styled.button`
     left: 0.6rem;
   }
 `;
-const MovieCard = ({ movies, movie, setMovies }) => {
+const MovieCard = ({ movies, movie, setMovies, setSelectedMovie }) => {
   const { title, poster_path, genre, release_date } = movie;
   const [open, setOpen] = React.useState(false);
   return (
-    <StyledCardContainer>
+    <StyledCardContainer onClick={() => setSelectedMovie(movie)}>
       <StyledDotsButton
-        className='menuButton'
+        className="menuButton"
         open={!open}
-        onClick={() => setOpen(true)}>
+        onClick={() => setOpen(true)}
+      >
         <div />
         <div />
         <div />

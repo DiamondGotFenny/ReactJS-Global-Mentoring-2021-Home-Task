@@ -10,7 +10,7 @@ import {
   StyledResults,
   ContentWrapper,
 } from '../../styledComponents/Content';
-const Content = ({ movies, setMovies }) => {
+const Content = ({ movies, setMovies, setSelectedMovie }) => {
   return (
     <SectionWrapper>
       <FilterWrapper>
@@ -44,7 +44,13 @@ const Content = ({ movies, setMovies }) => {
       </StyledResults>
       <ContentWrapper>
         {movies.map((movie) => (
-          <MovieCard movies={movies} movie={movie} setMovies={setMovies} />
+          <MovieCard
+            movies={movies}
+            movie={movie}
+            setMovies={setMovies}
+            setSelectedMovie={setSelectedMovie}
+            key={movie.id}
+          />
         ))}
       </ContentWrapper>
     </SectionWrapper>

@@ -36,11 +36,11 @@ const Search = ({ movies, setMovies }) => {
       <StyledSearchTitle>FIND YOUR MOVIE</StyledSearchTitle>
       <StyledSearchContainer>
         <input
-          type='search'
-          id='site-search'
-          name='search-movie'
-          aria-label='Search movie'
-          placeholder='What do you want to watch?'
+          type="search"
+          id="site-search"
+          name="search-movie"
+          aria-label="Search movie"
+          placeholder="What do you want to watch?"
         />
         <button>Search</button>
       </StyledSearchContainer>
