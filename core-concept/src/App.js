@@ -1,14 +1,17 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import uniqueId from 'lodash/uniqueId';
-import ListItem from './Components/ListItem';
+import './App.css';
+import TodoItems from './Components/TodoItems';
+
+const appHeader = React.createElement('h1', null, 'My Todo List');
 
 function App() {
-  const itemsListIntial = JSON.parse(localStorage.getItem('itemsList')) || [];
+  const ITEMS_LIST = 'itemsList';
+  const itemsListIntial = JSON.parse(localStorage.getItem(ITEMS_LIST)) || [];
   const [itemsList, setItemsList] = useState(itemsListIntial);
 
   const [inputVal, setInputVal] = useState('');
@@ -45,12 +48,12 @@ function App() {
   };
 
   useEffect(() => {
-    localStorage.setItem('itemsList', JSON.stringify(itemsList));
+    localStorage.setItem(ITEMS_LIST, JSON.stringify(itemsList));
   }, [itemsList]);
-  console.log(itemsList, 'itemsList');
+  console.log(itemsList, ITEMS_LIST);
   return (
     <div className="App">
-      <h1>My Todo List</h1>
+      {appHeader}
       <div className="container">
         <InputGroup className="inputGroup">
           <Button id="addItemBtn" onClick={handleAddItem}>
@@ -65,7 +68,7 @@ function App() {
             onChange={(e) => setInputVal(e.target.value)}
           />
         </InputGroup>
-        <ListItem
+        <TodoItems
           itemsList={itemsList}
           onCheck={handleCompleteItem}
           onDelete={handleDeleteItem}
