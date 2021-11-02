@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, memo } from 'react';
 import styled from 'styled-components';
 import ActiveMovieForm from './MovieModal';
+import moviesContext from '../Context/moviesContext';
 
 const StyledMenu = styled.nav`
   display: ${({ open }) => (open ? 'inline-flex;' : 'none;')};
@@ -37,34 +38,40 @@ const StyledMenu = styled.nav`
   z-index: 10;
 `;
 
-const EditMenu = ({ open, setOpen, movie, movies, setMovies }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const EditMenu = ({ open, setOpen, movie }) => {
+  const { dispatch } = useContext(moviesContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const handleClose = () => {
-    setIsOpen(false);
+    setIsModalOpen(false);
   };
   const handleOpen = () => {
-    setIsOpen(true);
+    setIsModalOpen(true);
   };
   const handleDelete = (id) => {
-    const newMovies = movies.filter((movie) => movie.id !== id);
-    setMovies(newMovies);
+    dispatch({ type: 'DELETE_MOVIE', payload: id });
   };
+  const renderForm = React.useMemo(() => {
+    return (
+      <ActiveMovieForm
+        isOpen={isModalOpen}
+        handleClose={handleClose}
+        movie={movie}
+        dispatch={dispatch}
+      />
+    );
+  }, [movie, isModalOpen, dispatch]);
   return (
     <>
       <StyledMenu open={open}>
-        <button className='close' onClick={() => setOpen(false)}>
+        <button className="close" onClick={() => setOpen(false)}>
           X
         </button>
         <button onClick={handleOpen}>Edit</button>
         <button onClick={() => handleDelete(movie.id)}>Delete</button>
       </StyledMenu>
-      <ActiveMovieForm
-        isOpen={isOpen}
-        handleClose={handleClose}
-        movie={movie}
-      />
+      {renderForm}
     </>
   );
 };
 
-export default EditMenu;
+export default memo(EditMenu);

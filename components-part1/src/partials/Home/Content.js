@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useContext } from 'react';
 import MovieCard from '../../components/MovieCard';
 import {
   SectionWrapper,
@@ -10,7 +10,9 @@ import {
   StyledResults,
   ContentWrapper,
 } from '../../styledComponents/Content';
-const Content = ({ movies, setMovies, setSelectedMovie }) => {
+import moviesContext from '../../Context/moviesContext';
+const Content = () => {
+  const { movies, selectedMovieDispatch } = useContext(moviesContext);
   return (
     <SectionWrapper>
       <FilterWrapper>
@@ -45,11 +47,9 @@ const Content = ({ movies, setMovies, setSelectedMovie }) => {
       <ContentWrapper>
         {movies.map((movie) => (
           <MovieCard
-            movies={movies}
             movie={movie}
-            setMovies={setMovies}
-            setSelectedMovie={setSelectedMovie}
             key={movie.id}
+            selectedMovieDispatch={selectedMovieDispatch}
           />
         ))}
       </ContentWrapper>
@@ -57,4 +57,4 @@ const Content = ({ movies, setMovies, setSelectedMovie }) => {
   );
 };
 
-export default Content;
+export default memo(Content);

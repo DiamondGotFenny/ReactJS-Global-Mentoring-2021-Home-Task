@@ -29,7 +29,7 @@ const StyledLogo = styled.div`
 
 const Logo = () => {
   return (
-    <StyledLogo>
+    <StyledLogo className="logo-container">
       <span className="logo_1">netflix</span>
       <span className="logo_2">roulette</span>
     </StyledLogo>

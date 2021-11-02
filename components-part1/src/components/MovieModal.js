@@ -1,22 +1,37 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, memo } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import Multiselect from 'multiselect-react-dropdown';
-const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
-  const genresOptions = [
-    { label: 'Action', value: 'Action' },
-    { label: 'Adventure', value: 'Adventure' },
-    { label: 'Animation', value: 'Animation' },
-    { label: 'Comedy', value: 'Comedy' },
-    { label: 'Crime', value: 'Crime' },
-    { label: 'Documentary', value: 'Documentary' },
-  ];
+
+const genresOptions = [
+  { label: 'Action', value: 'Action' },
+  { label: 'Adventure', value: 'Adventure' },
+  { label: 'Animation', value: 'Animation' },
+  { label: 'Comedy', value: 'Comedy' },
+  { label: 'Crime', value: 'Crime' },
+  { label: 'Documentary', value: 'Documentary' },
+];
+const ActiveMovieForm = ({ isOpen, handleClose, movie, dispatch }) => {
   const [formData, setFormData] = useState({});
   const formRef = useRef(null);
   const handleSubmit = (e) => {
     e.preventDefault();
     //submit data to server here
+    //we don't acutally need to use dispatch here in real scenario
     console.log(formData);
-    setMovies([...movies, formData]);
+    if (movie) {
+      dispatch({
+        type: 'UPDATE_MOVIE',
+        payload: {
+          ...formData,
+          id: movie.id,
+        },
+      });
+    } else {
+      dispatch({
+        type: 'ADD_MOVIE',
+        payload: formData,
+      });
+    }
     handleClose();
   };
   const handleChange = (e) => {
@@ -36,6 +51,7 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
     formRef.current.reset();
     setFormData({});
   };
+  console.log('modal render');
   return (
     <Modal show={isOpen} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -53,7 +69,7 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
               aria-describedby="title"
               placeholder="Movie Title"
               onChange={handleChange}
-              value={movie?.title}
+              defaultValue={movie?.title}
             />
           </Form.Group>
           <Form.Group className="release-date" controlId="release-date">
@@ -66,7 +82,7 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
               aria-describedby="release-date"
               placeholder="Select Date"
               onChange={handleChange}
-              value={movie?.release_date}
+              defaultValue={movie?.release_date}
             />
           </Form.Group>
           <Form.Group className="movie-url" controlId="movie-url">
@@ -79,7 +95,7 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
               aria-describedby="movie-url"
               placeholder="htts://"
               onChange={handleChange}
-              value={movie?.poster_path}
+              defaultValue={movie?.poster_path}
             />
           </Form.Group>
           <Form.Group className="rating" controlId="rating">
@@ -92,7 +108,7 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
               aria-describedby="rating"
               placeholder="7.8"
               onChange={handleChange}
-              value={movie?.rating}
+              defaultValue={movie?.rating}
             />
           </Form.Group>
           <label className="genre">Genre:</label>
@@ -113,7 +129,7 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
               name="runtime"
               aria-describedby="runtime"
               onChange={handleChange}
-              value={movie?.runtime}
+              defaultValue={movie?.runtime}
             />
           </Form.Group>
           <Modal.Footer>
@@ -130,4 +146,4 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
   );
 };
 
-export default ActiveMovieForm;
+export default memo(ActiveMovieForm);

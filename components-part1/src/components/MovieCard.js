@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import styled from 'styled-components';
 import EditMenu from './EditMenu';
-
+import moviesContext from '../Context/moviesContext';
 const StyledCardContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -76,11 +76,12 @@ const StyledDotsButton = styled.button`
     left: 0.6rem;
   }
 `;
-const MovieCard = ({ movies, movie, setMovies, setSelectedMovie }) => {
+const MovieCard = ({ movie, selectedMovieDispatch }) => {
   const { title, poster_path, genre, release_date } = movie;
   const [open, setOpen] = React.useState(false);
+
   return (
-    <StyledCardContainer onClick={() => setSelectedMovie(movie)}>
+    <StyledCardContainer>
       <StyledDotsButton
         className="menuButton"
         open={!open}
@@ -90,20 +91,23 @@ const MovieCard = ({ movies, movie, setMovies, setSelectedMovie }) => {
         <div />
         <div />
       </StyledDotsButton>
-      <EditMenu
-        open={open}
-        setOpen={setOpen}
-        movie={movie}
-        movies={movies}
-        setMovies={setMovies}
-      />
-      <img src={poster_path} alt={title} />
-      <BasicInfoWrapper>
-        <title>{title}</title>
-        <span>{release_date}</span>
-      </BasicInfoWrapper>
-      <GenreWrapper>{genre}</GenreWrapper>
+      <EditMenu open={open} setOpen={setOpen} movie={movie} />
+      <div
+        onClick={() =>
+          selectedMovieDispatch({
+            type: 'SELECT_MOVIE',
+            payload: movie,
+          })
+        }
+      >
+        <img src={poster_path} alt={title} />
+        <BasicInfoWrapper>
+          <title>{title}</title>
+          <span>{release_date}</span>
+        </BasicInfoWrapper>
+        <GenreWrapper>{genre}</GenreWrapper>
+      </div>
     </StyledCardContainer>
   );
 };
-export default MovieCard;
+export default memo(MovieCard);
