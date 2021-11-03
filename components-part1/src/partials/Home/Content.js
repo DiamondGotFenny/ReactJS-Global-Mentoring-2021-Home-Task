@@ -1,4 +1,5 @@
-import React, { memo, useContext } from 'react';
+import React, { useState, memo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import MovieCard from '../../components/MovieCard';
 import {
   SectionWrapper,
@@ -10,34 +11,68 @@ import {
   StyledResults,
   ContentWrapper,
 } from '../../styledComponents/Content';
-import moviesContext from '../../Context/moviesContext';
+import {
+  fetchMoviesList,
+  filterByGenre,
+  sortByRating,
+  sortByReleaseDate,
+} from '../../actions/moviesActions';
+
 const Content = () => {
-  const { movies, selectedMovieDispatch } = useContext(moviesContext);
+  const dispatch = useDispatch();
+  const { movies, filteredMovies } = useSelector((state) => state);
+  const [moviesList, setmoviesList] = useState([]);
+  const handleGenreClick = (genre) => {
+    dispatch(filterByGenre(movies, genre));
+  };
+  useEffect(() => {
+    dispatch(fetchMoviesList('/movies'));
+  }, []);
+  useEffect(() => {
+    console.log(movies);
+    if (movies.status === 'success') {
+      setmoviesList(movies.data.data);
+    }
+    if (filteredMovies.data) {
+      setmoviesList(filteredMovies.data);
+    }
+  }, [movies.status, filteredMovies.data]);
+
+  const handleInputChange = (e) => {
+    const { value } = e.target;
+    if (value === 'vote_average') {
+      dispatch(sortByRating(movies));
+    }
+    if (value === 'release_date') {
+      dispatch(sortByReleaseDate(movies));
+    }
+  };
+  console.log(filteredMovies, ' filteredMovies content render');
   return (
     <SectionWrapper>
       <FilterWrapper>
         <ul>
-          <li>
+          <li onClick={() => handleGenreClick('all')}>
             <FilterButton>all</FilterButton>
           </li>
-          <li>
-            <FilterButton>Documentary</FilterButton>
+          <li onClick={() => handleGenreClick('Drama')}>
+            <FilterButton>Drama</FilterButton>
           </li>
-          <li>
+          <li onClick={() => handleGenreClick('Comedy')}>
             <FilterButton>Comedy</FilterButton>
           </li>
-          <li>
-            <FilterButton>Horror</FilterButton>
+          <li onClick={() => handleGenreClick('Adventure')}>
+            <FilterButton>Adventure</FilterButton>
           </li>
-          <li>
-            <FilterButton>crime</FilterButton>
+          <li onClick={() => handleGenreClick('Action')}>
+            <FilterButton>Action</FilterButton>
           </li>
         </ul>
         <SortWrapper>
           <SortSpan>Sort by</SortSpan>
-          <SortSelect>
-            <option>release date</option>
-            <option>rating</option>
+          <SortSelect onChange={handleInputChange}>
+            <option value="release_date">release date</option>
+            <option value="vote_average">rating</option>
           </SortSelect>
         </SortWrapper>
       </FilterWrapper>
@@ -45,12 +80,8 @@ const Content = () => {
         <span>39</span> movies found
       </StyledResults>
       <ContentWrapper>
-        {movies.map((movie) => (
-          <MovieCard
-            movie={movie}
-            key={movie.id}
-            selectedMovieDispatch={selectedMovieDispatch}
-          />
+        {moviesList.map((movie) => (
+          <MovieCard movie={movie} key={movie.id} />
         ))}
       </ContentWrapper>
     </SectionWrapper>

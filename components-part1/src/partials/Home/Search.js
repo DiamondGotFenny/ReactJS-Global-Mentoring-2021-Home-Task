@@ -1,5 +1,6 @@
 import React, { useState, memo } from 'react';
 import Logo from '../../components/Logo';
+
 import {
   SearchWrapper,
   StyledHeader,

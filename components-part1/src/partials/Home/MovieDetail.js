@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import { Image } from 'react-bootstrap';
-import moviesContext from '../../Context/moviesContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMovieDetails } from '../../actions/moviesActions';
+import styled from 'styled-components';
 import Logo from '../../components/Logo';
 
 const StyledMovieDetailWrapper = styled.div`
@@ -21,13 +22,13 @@ const StyledMovieDetailWrapper = styled.div`
   }
   .poster {
     grid-area: poster;
-    width: 250px;
+    width: 220px;
     height: auto;
-    transform: translateX(15%);
+    transform: translateX(25%);
   }
   .info-container {
     grid-area: info;
-    width: 700px;
+    width: 780px;
     height: auto;
     padding-top: 10px;
     display: flex;
@@ -71,41 +72,42 @@ const StyledMovieDetailWrapper = styled.div`
 `;
 
 const MovieDetail = () => {
-  const { selectedMovie, selectedMovieDispatch } = useContext(moviesContext);
+  const dispatch = useDispatch();
+  const { movieDetails } = useSelector((state) => state);
+  console.log(movieDetails, 'movieDetails');
   const {
     title,
+    tagline,
     poster_path,
-    genre,
+    genres,
     release_date,
-    description,
+    overview,
     runtime,
-    rating,
-  } = selectedMovie;
+    vote_average,
+  } = movieDetails.data;
   return (
     <StyledMovieDetailWrapper>
       <Logo />
       <button
         className="search-btn"
-        onClick={() =>
-          selectedMovieDispatch({ type: 'SELECT_MOVIE', payload: null })
-        }
+        onClick={() => dispatch(fetchMovieDetails(`search/}`))}
       >
         Search
       </button>
       <Image className="poster" src={poster_path} />
       <div className="info-container">
         <div className="col-1">
-          <h2 className="title">{title}</h2>
-          <p className="rating">{rating}</p>
+          <h2 className="title">{`${title}:${tagline}`}</h2>
+          <p className="rating">{vote_average}</p>
         </div>
 
-        <p className="genre">{genre}</p>
+        <p className="genre">{genres.join(' ')}</p>
         <div className="col-2">
           <p className="release-date">{release_date}</p>
           <p className="runtime">{runtime} mints</p>
         </div>
 
-        <p className="desc">{description}</p>
+        <p className="desc">{overview}</p>
       </div>
     </StyledMovieDetailWrapper>
   );
