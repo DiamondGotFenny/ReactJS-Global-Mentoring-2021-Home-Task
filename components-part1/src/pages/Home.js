@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
-import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import queryString from 'query-string';
 import Content from '../partials/Home/Content';
 import Footer from '../partials/Home/Footer';
 import Search from '../partials/Home/Search';
@@ -12,17 +13,19 @@ const HomeWrapper = styled.div`
 `;
 
 const Home = () => {
-  const { movieDetails } = useSelector((state) => state);
+  const history = useNavigate();
+  const queryParams = queryString.parse(useLocation().search);
+  console.log(queryParams, 'queryParams');
   const renderTopComponent = () => {
-    if (movieDetails.data) {
-      return <MovieDetail />;
+    if (queryParams.movieId) {
+      return <MovieDetail movieId={queryParams.movieId} />;
     }
     return <Search />;
   };
-
   return (
     <HomeWrapper>
       {renderTopComponent()}
+
       <Content />
       <Footer />
     </HomeWrapper>

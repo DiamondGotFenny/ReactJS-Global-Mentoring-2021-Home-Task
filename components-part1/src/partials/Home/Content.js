@@ -29,7 +29,6 @@ const Content = () => {
     dispatch(fetchMoviesList('/movies'));
   }, []);
   useEffect(() => {
-    console.log(movies);
     if (movies.status === 'success') {
       setmoviesList(movies.data.data);
     }
@@ -47,7 +46,6 @@ const Content = () => {
       dispatch(sortByReleaseDate(movies));
     }
   };
-  console.log(filteredMovies, ' filteredMovies content render');
   return (
     <SectionWrapper>
       <FilterWrapper>
@@ -77,7 +75,7 @@ const Content = () => {
         </SortWrapper>
       </FilterWrapper>
       <StyledResults>
-        <span>39</span> movies found
+        <span>{movies.data?.total}</span> movies found
       </StyledResults>
       <ContentWrapper>
         {moviesList.map((movie) => (

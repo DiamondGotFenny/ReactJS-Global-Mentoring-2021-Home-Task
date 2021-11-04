@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovieDetails } from '../../actions/moviesActions';
@@ -71,7 +71,7 @@ const StyledMovieDetailWrapper = styled.div`
   color: #fff;
 `;
 
-const MovieDetail = () => {
+const MovieDetail = ({ movieId }) => {
   const dispatch = useDispatch();
   const { movieDetails } = useSelector((state) => state);
   console.log(movieDetails, 'movieDetails');

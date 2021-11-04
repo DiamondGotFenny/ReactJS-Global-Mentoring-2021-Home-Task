@@ -1,13 +1,19 @@
 import './App.css';
 import Home from './pages/Home';
-import { MoviesContextProvide } from './Context/moviesContext';
-
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 function App() {
   return (
     <div className="App">
-      <MoviesContextProvide>
-        <Home />
-      </MoviesContextProvide>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={<Navigate to="/search" replace={true} />}
+          />
+          <Route path="/search" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

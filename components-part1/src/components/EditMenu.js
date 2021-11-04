@@ -1,7 +1,8 @@
-import React, { useState, useContext, memo } from 'react';
+import React, { useState, memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import MovieModal from './MovieModal';
-import moviesContext from '../Context/moviesContext';
+
 import httpService from '../services/httpService';
 
 const StyledMenu = styled.nav`
@@ -40,8 +41,8 @@ const StyledMenu = styled.nav`
 `;
 
 const EditMenu = ({ open, setOpen, movie }) => {
-  const { dispatch } = useContext(moviesContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
   const handleClose = () => {
     setIsModalOpen(false);
   };
@@ -62,7 +63,6 @@ const EditMenu = ({ open, setOpen, movie }) => {
         isOpen={isModalOpen}
         handleClose={handleClose}
         movie={movie}
-        dispatch={dispatch}
       />
     );
   }, [movie, isModalOpen, dispatch]);
