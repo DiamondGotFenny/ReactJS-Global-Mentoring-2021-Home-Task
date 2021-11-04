@@ -1,7 +1,8 @@
 import React, { useState, useContext, memo } from 'react';
 import styled from 'styled-components';
-import ActiveMovieForm from './MovieModal';
+import MovieModal from './MovieModal';
 import moviesContext from '../Context/moviesContext';
+import httpService from '../services/httpService';
 
 const StyledMenu = styled.nav`
   display: ${({ open }) => (open ? 'inline-flex;' : 'none;')};
@@ -47,12 +48,17 @@ const EditMenu = ({ open, setOpen, movie }) => {
   const handleOpen = () => {
     setIsModalOpen(true);
   };
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
+    try {
+      httpService.delete(`/movies/${id}`);
+    } catch (error) {
+      alert(error);
+    }
     dispatch({ type: 'DELETE_MOVIE', payload: id });
   };
   const renderForm = React.useMemo(() => {
     return (
-      <ActiveMovieForm
+      <MovieModal
         isOpen={isModalOpen}
         handleClose={handleClose}
         movie={movie}
