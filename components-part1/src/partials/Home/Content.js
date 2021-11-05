@@ -1,5 +1,7 @@
 import React, { useState, memo, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import searchObject from 'search-object';
+import queryString from 'query-string';
 import MovieCard from '../../components/MovieCard';
 import {
   SectionWrapper,
@@ -11,40 +13,99 @@ import {
   StyledResults,
   ContentWrapper,
 } from '../../styledComponents/Content';
-import {
-  fetchMoviesList,
-  filterByGenre,
-  sortByRating,
-  sortByReleaseDate,
-} from '../../actions/moviesActions';
+import httpService from '../../services/httpService';
 
 const Content = () => {
-  const dispatch = useDispatch();
-  const { movies, filteredMovies } = useSelector((state) => state);
+  const params = useParams();
+  const queryStr = useLocation().search;
+  const queryObj = queryString.parse(queryStr);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
   const [moviesList, setmoviesList] = useState([]);
-  const handleGenreClick = (genre) => {
-    dispatch(filterByGenre(movies, genre));
+  //this is the original list of movies
+  const [movies, setMovies] = useState(null);
+
+  const handleSortMovies = (movies, sortBy) => {
+    if (sortBy === 'vote_average') {
+      const sortedMovies = movies.sort(
+        (a, b) => b.vote_average - a.vote_average
+      );
+      return sortedMovies;
+    } else if (sortBy === 'release_date') {
+      const sortedMovies = movies.sort(
+        (a, b) => Date.parse(b.release_date) - Date.parse(a.release_date)
+      );
+      return sortedMovies;
+    }
   };
   useEffect(() => {
-    dispatch(fetchMoviesList('/movies'));
-  }, []);
-  useEffect(() => {
-    if (movies.status === 'success') {
-      setmoviesList(movies.data.data);
+    const fetchData = async () => {
+      try {
+        const { data } = await httpService.get('/movies');
+        setMovies(data);
+        setmoviesList(data.data);
+      } catch (error) {
+        alert(error);
+      }
+    };
+    if (!queryStr && !params.searchQuery) {
+      fetchData();
     }
-    if (filteredMovies.data) {
-      setmoviesList(filteredMovies.data);
-    }
-  }, [movies.status, filteredMovies.data]);
+  }, [params, queryStr]);
 
+  useEffect(() => {
+    /* if (movies && params.searchQuery) {
+      setmoviesList(handleSearchQuery(movies.data, params.searchQuery));
+    }
+    if (movies && queryObj.genre) {
+      setmoviesList(handleSearchQuery(movies.data, queryObj.genre));
+    } */
+    if (queryObj.sortBy) {
+      const sortedMovies = handleSortMovies(moviesList, queryObj.sortBy);
+      setmoviesList(sortedMovies);
+    }
+  }, [queryObj.sortBy]);
+
+  useEffect(() => {
+    if (movies && params.searchQuery) {
+      setmoviesList(handleSearchQuery(movies.data, params.searchQuery));
+    }
+  }, [movies, params.searchQuery]);
+
+  useEffect(() => {
+    if (movies && queryObj.genre) {
+      setmoviesList(handleSearchQuery(movies.data, queryObj.genre));
+    }
+  }, [movies, queryObj.genre]);
+
+  const handleSearchQuery = (movies, query) => {
+    const filteredMovies = movies
+      .map((movie) => {
+        if (searchObject(movie, query)) {
+          return movie;
+        }
+      })
+      .filter((item) => item !== undefined);
+    return filteredMovies;
+  };
+
+  const handleGenreClick = (genre) => {
+    if (genre === 'all') {
+      setmoviesList(movies.data);
+      navigate(`${pathname}`);
+      return;
+    }
+
+    const newQueryObj = { ...queryObj, genre: genre };
+    const newQueryStr = queryString.stringify(newQueryObj);
+    navigate({ search: newQueryStr });
+  };
   const handleInputChange = (e) => {
     const { value } = e.target;
-    if (value === 'vote_average') {
-      dispatch(sortByRating(movies));
-    }
-    if (value === 'release_date') {
-      dispatch(sortByReleaseDate(movies));
-    }
+    const newQueryObj = { ...queryObj, sortBy: value };
+    const newQueryStr = queryString.stringify(newQueryObj);
+    navigate({ search: newQueryStr });
   };
   return (
     <SectionWrapper>
@@ -68,14 +129,15 @@ const Content = () => {
         </ul>
         <SortWrapper>
           <SortSpan>Sort by</SortSpan>
-          <SortSelect onChange={handleInputChange}>
+          <SortSelect onChange={handleInputChange} defaultValue="release_date">
             <option value="release_date">release date</option>
             <option value="vote_average">rating</option>
           </SortSelect>
         </SortWrapper>
       </FilterWrapper>
       <StyledResults>
-        <span>{movies.data?.total}</span> movies found
+        <span>{moviesList.length > 0 ? moviesList.length : 0}</span> movies
+        found
       </StyledResults>
       <ContentWrapper>
         {moviesList.map((movie) => (

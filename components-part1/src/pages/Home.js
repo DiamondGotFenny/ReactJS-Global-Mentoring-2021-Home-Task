@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import Content from '../partials/Home/Content';
 import Footer from '../partials/Home/Footer';
@@ -13,18 +13,15 @@ const HomeWrapper = styled.div`
 `;
 
 const Home = () => {
-  const history = useNavigate();
   const queryParams = queryString.parse(useLocation().search);
-  console.log(queryParams, 'queryParams');
-  const renderTopComponent = () => {
-    if (queryParams.movieId) {
-      return <MovieDetail movieId={queryParams.movieId} />;
-    }
-    return <Search />;
-  };
+
   return (
     <HomeWrapper>
-      {renderTopComponent()}
+      {queryParams.movie ? (
+        <MovieDetail movieId={queryParams.movie} />
+      ) : (
+        <Search />
+      )}
 
       <Content />
       <Footer />

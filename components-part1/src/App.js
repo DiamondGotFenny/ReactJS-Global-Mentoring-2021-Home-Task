@@ -12,6 +12,7 @@ function App() {
             element={<Navigate to="/search" replace={true} />}
           />
           <Route path="/search" element={<Home />} />
+          <Route path="/search/:searchQuery" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </div>

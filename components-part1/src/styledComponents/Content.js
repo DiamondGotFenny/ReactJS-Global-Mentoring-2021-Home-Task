@@ -32,6 +32,8 @@ export const FilterButton = styled.button`
 
   &:focus-within {
     border-bottom: 2px solid #f65261;
+    color: #f65261;
+    text-shadow: 0 0 0.05em #fff, 0 0 0.2em #f65261, 0 0 0.3em #f65261;
   }
 `;
 
