@@ -77,6 +77,7 @@ const MovieDetail = ({ movieId }) => {
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
+      console.log('movieId', movieId);
       try {
         const { data } = await httpService.get(`/movies/${movieId}`);
         setMovieDetails(data);

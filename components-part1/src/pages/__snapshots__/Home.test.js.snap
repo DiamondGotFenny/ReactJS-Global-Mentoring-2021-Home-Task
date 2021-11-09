@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home renders MovieDetail correctly with movieId 1`] = `
+<styled.div>
+  <MovieDetail
+    movieId="1"
+  />
+  <Memo(Content) />
+  <Footer />
+</styled.div>
+`;
+
+exports[`Home renders Search correctly 1`] = `
+<styled.div>
+  <Memo(Search) />
+  <Memo(Content) />
+  <Footer />
+</styled.div>
+`;

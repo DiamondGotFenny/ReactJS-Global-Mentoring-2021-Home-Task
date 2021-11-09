@@ -1,5 +1,6 @@
 import React, { useState, memo, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import searchObject from 'search-object';
 import queryString from 'query-string';
 import MovieCard from '../../components/MovieCard';
@@ -21,7 +22,8 @@ const Content = () => {
   const queryObj = queryString.parse(queryStr);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
+  const deletedMovie = useSelector((state) => state.deletedMovie);
+  console.log(deletedMovie, 'deletedMovie');
   const [moviesList, setmoviesList] = useState([]);
   //this is the original list of movies
   const [movies, setMovies] = useState(null);
@@ -39,6 +41,7 @@ const Content = () => {
       return sortedMovies;
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -49,18 +52,10 @@ const Content = () => {
         alert(error);
       }
     };
-    if (!queryStr && !params.searchQuery) {
-      fetchData();
-    }
-  }, [params, queryStr]);
-
+    fetchData();
+  }, []);
+  console.log(movies, 'movies');
   useEffect(() => {
-    /* if (movies && params.searchQuery) {
-      setmoviesList(handleSearchQuery(movies.data, params.searchQuery));
-    }
-    if (movies && queryObj.genre) {
-      setmoviesList(handleSearchQuery(movies.data, queryObj.genre));
-    } */
     if (queryObj.sortBy) {
       const sortedMovies = handleSortMovies(moviesList, queryObj.sortBy);
       setmoviesList(sortedMovies);
@@ -68,6 +63,9 @@ const Content = () => {
   }, [queryObj.sortBy]);
 
   useEffect(() => {
+    if (movies && !queryObj.searchQuery) {
+      setmoviesList(movies.data);
+    }
     if (movies && params.searchQuery) {
       setmoviesList(handleSearchQuery(movies.data, params.searchQuery));
     }

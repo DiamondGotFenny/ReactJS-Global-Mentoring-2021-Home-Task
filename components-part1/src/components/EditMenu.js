@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import MovieModal from './MovieModal';
 
 import httpService from '../services/httpService';
+import { DELETE_MOVIE_FROM_LIST } from '../constants/constantsVarables';
 
 const StyledMenu = styled.nav`
   display: ${({ open }) => (open ? 'inline-flex;' : 'none;')};
@@ -55,7 +56,7 @@ const EditMenu = ({ open, setOpen, movie }) => {
     } catch (error) {
       alert(error);
     }
-    dispatch({ type: 'DELETE_MOVIE', payload: id });
+    dispatch({ type: DELETE_MOVIE_FROM_LIST, payload: id });
   };
   const renderForm = React.useMemo(() => {
     return (
