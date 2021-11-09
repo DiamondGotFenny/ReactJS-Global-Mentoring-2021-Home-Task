@@ -1,9 +1,10 @@
 import React, { useState, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import MovieModal from './MovieModal';
 
 import httpService from '../services/httpService';
+import { DELETE_MOVIE_FROME_LIST } from '../constants/constantsVarables';
 
 const StyledMenu = styled.nav`
   display: ${({ open }) => (open ? 'inline-flex;' : 'none;')};
@@ -52,10 +53,10 @@ const EditMenu = ({ open, setOpen, movie }) => {
   const handleDelete = async (id) => {
     try {
       httpService.delete(`/movies/${id}`);
+      dispatch({ type: DELETE_MOVIE_FROME_LIST, payload: id });
     } catch (error) {
       alert(error);
     }
-    dispatch({ type: 'DELETE_MOVIE', payload: id });
   };
   const renderForm = React.useMemo(() => {
     return (
