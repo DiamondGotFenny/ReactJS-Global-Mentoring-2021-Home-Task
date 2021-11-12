@@ -7,23 +7,21 @@ const StyledLogo = styled.div`
   width: 151px;
   margin-left: 20px;
   transform: translateY(-10px);
-  & .logo_1 {
-    font-family: Montserrat;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: 24px;
-    letter-spacing: 0px;
-    text-align: left;
-  }
+  & .logo_1,
   & .logo_2 {
     font-family: Montserrat;
     font-size: 20px;
     font-style: normal;
-    font-weight: 500;
+
     line-height: 24px;
     letter-spacing: 0px;
     text-align: left;
+  }
+  & .logo_1 {
+    font-weight: 900;
+  }
+  & .logo_2 {
+    font-weight: 500;
   }
 `;
 
