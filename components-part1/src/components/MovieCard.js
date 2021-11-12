@@ -69,7 +69,7 @@ const StyledDotsButton = styled.button`
     width: 0.25rem;
     height: 0.25rem;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 0.6rem;
     transition: all 0.3s linear;
     position: relative;
     transform-origin: 1px;
