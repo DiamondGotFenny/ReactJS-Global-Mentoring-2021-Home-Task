@@ -94,13 +94,13 @@ const MovieCard = ({ movie }) => {
         <div />
       </StyledDotsButton>
       <EditMenu open={open} setOpen={setOpen} movie={movie} />
-      <div onClick={() => dispatch(fetchMovieDetails(`movies/${movie.id}`))}>
+      <div onClick={() => dispatch(fetchMovieDetails(movie))}>
         <img src={poster_path} alt={title} />
         <BasicInfoWrapper>
           <title>{title}</title>
           <span>{release_date}</span>
         </BasicInfoWrapper>
-        <GenreWrapper>{genres.join(' ')}</GenreWrapper>
+        <GenreWrapper>{genres.join(',')}</GenreWrapper>
       </div>
     </StyledCardContainer>
   );

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import Content from '../partials/Home/Content';
 import Footer from '../partials/Home/Footer';
@@ -13,16 +13,16 @@ const HomeWrapper = styled.div`
 
 const Home = () => {
   const { movieDetails } = useSelector((state) => state);
-  const renderTopComponent = () => {
+  const renderTopComponent = useMemo(() => {
     if (movieDetails.data) {
       return <MovieDetail />;
     }
     return <Search />;
-  };
+  }, [movieDetails.data]);
 
   return (
     <HomeWrapper>
-      {renderTopComponent()}
+      {renderTopComponent}
       <Content />
       <Footer />
     </HomeWrapper>

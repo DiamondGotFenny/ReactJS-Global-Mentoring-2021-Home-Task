@@ -90,7 +90,7 @@ const MovieDetail = () => {
       <Logo />
       <button
         className="search-btn"
-        onClick={() => dispatch(fetchMovieDetails(`search/}`))}
+        onClick={() => dispatch(fetchMovieDetails(null))}
       >
         Search
       </button>
@@ -101,7 +101,7 @@ const MovieDetail = () => {
           <p className="rating">{vote_average}</p>
         </div>
 
-        <p className="genre">{genres.join(' ')}</p>
+        <p className="genre">{genres.join(',')}</p>
         <div className="col-2">
           <p className="release-date">{release_date}</p>
           <p className="runtime">{runtime} mints</p>

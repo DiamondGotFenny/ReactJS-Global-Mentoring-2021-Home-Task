@@ -3,8 +3,6 @@ import {
   FETCH_MOVIESLIST_LOADING,
   FETCH_MOVIESLIST_FAIL,
   FETCH_MOVIE_DETAILS_SUCCESS,
-  FETCH_MOVIE_DETAILS_LOADING,
-  FETCH_MOVIE_DETAILS_FAIL,
   SORTING_BY_RATING,
   SORTING_BY_RELEASE_DATE,
   FILTER_BY_GENRE,
@@ -24,27 +22,17 @@ export const fetchMoviesList = (endpoint) => async (dispatch) => {
   }
 };
 
-export const fetchMovieDetails = (endpoint) => async (dispatch) => {
-  if (!endpoint) return;
-  if (endpoint.includes('search')) {
+export const fetchMovieDetails = (movie) => async (dispatch) => {
+  if (!movie) {
     dispatch({ type: FETCH_MOVIE_DETAILS_SUCCESS, payload: null });
   }
-  try {
-    dispatch({ type: FETCH_MOVIE_DETAILS_LOADING, payload: null });
-    const { data } = await httpService.get(endpoint);
-    if (data) {
-      dispatch({ type: FETCH_MOVIE_DETAILS_SUCCESS, payload: data });
-    }
-  } catch (error) {
-    dispatch({ type: FETCH_MOVIE_DETAILS_FAIL, payload: error.message });
-  }
+  dispatch({ type: FETCH_MOVIE_DETAILS_SUCCESS, payload: movie });
 };
 
 export const sortByRating = (movies) => (dispatch) => {
   const sortedMovies = movies.data.data.sort(
     (a, b) => b.vote_average - a.vote_average
   );
-  console.log(sortedMovies, 'sortedMovies');
   dispatch({ type: SORTING_BY_RATING, payload: sortedMovies });
 };
 
@@ -57,7 +45,6 @@ export const sortByReleaseDate = (movies) => (dispatch) => {
 
 export const filterByGenre = (movies, genre) => (dispatch) => {
   if (genre === 'all') {
-    console.log('all');
     dispatch({ type: FILTER_BY_GENRE, payload: movies.data.data });
     return;
   }
@@ -65,6 +52,5 @@ export const filterByGenre = (movies, genre) => (dispatch) => {
     movie.genres.includes(genre)
   );
   const filteredMovies = [..._filteredMovies];
-  console.log(filteredMovies, 'filteredMovies');
   dispatch({ type: FILTER_BY_GENRE, payload: filteredMovies });
 };
