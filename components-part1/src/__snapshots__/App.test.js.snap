@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="App"
+>
+  <BrowserRouter>
+    <Routes>
+      <Route
+        element={
+          <Navigate
+            replace={true}
+            to="/search"
+          />
+        }
+        exact={true}
+        path="/"
+      />
+      <Route
+        element={<Memo(Home) />}
+        path="/search"
+      />
+      <Route
+        element={<Memo(Home) />}
+        path="/search/:searchQuery"
+      />
+    </Routes>
+  </BrowserRouter>
+</div>
+`;

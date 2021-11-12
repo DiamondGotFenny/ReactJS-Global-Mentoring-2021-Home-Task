@@ -8,7 +8,7 @@ import {
   SORTING_BY_RATING,
   SORTING_BY_RELEASE_DATE,
   FILTER_BY_GENRE,
-  DELETE_MOVIE_FROME_LIST,
+  DELETE_MOVIE_FROM_LIST,
 } from '../constants/constantsVarables';
 import httpService from '../services/httpService';
 export const fetchMoviesList = (endpoint) => async (dispatch) => {
@@ -45,7 +45,6 @@ export const sortByRating = (movies) => (dispatch) => {
   const sortedMovies = movies.data.data.sort(
     (a, b) => b.vote_average - a.vote_average
   );
-  console.log(sortedMovies, 'sortedMovies');
   dispatch({ type: SORTING_BY_RATING, payload: sortedMovies });
 };
 
@@ -71,5 +70,5 @@ export const filterByGenre = (movies, genre) => (dispatch) => {
 };
 
 export const deleteMovie = (movieId) => (dispatch) => {
-  dispatch({ type: DELETE_MOVIE_FROME_LIST, payload: movieId });
+  dispatch({ type: DELETE_MOVIE_FROM_LIST, payload: movieId });
 };

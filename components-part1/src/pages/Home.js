@@ -16,7 +16,7 @@ const Home = () => {
   const queryParams = queryString.parse(useLocation().search);
 
   return (
-    <HomeWrapper>
+    <HomeWrapper className="homePage-Wrapper">
       {queryParams.movie ? (
         <MovieDetail movieId={queryParams.movie} />
       ) : (

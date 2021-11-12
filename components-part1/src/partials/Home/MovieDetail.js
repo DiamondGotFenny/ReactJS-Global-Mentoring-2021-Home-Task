@@ -91,7 +91,7 @@ const MovieDetail = ({ movieId }) => {
   }
 
   return (
-    <StyledMovieDetailWrapper>
+    <StyledMovieDetailWrapper className="movieDetails-Wrapper">
       <Logo />
       <button className="search-btn" onClick={() => navigate('/search')}>
         Search
