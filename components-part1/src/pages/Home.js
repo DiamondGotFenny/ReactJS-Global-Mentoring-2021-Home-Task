@@ -1,10 +1,10 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import Content from '../partials/Home/Content';
 import Footer from '../partials/Home/Footer';
 import Search from '../partials/Home/Search';
 import styled from 'styled-components';
 import MovieDetail from '../partials/Home/MovieDetail';
-import moviesContext from '../Context/moviesContext';
 
 const HomeWrapper = styled.div`
   display: flex;
@@ -12,18 +12,17 @@ const HomeWrapper = styled.div`
 `;
 
 const Home = () => {
-  const { selectedMovie } = React.useContext(moviesContext);
-  console.log(selectedMovie, 'selected');
-  const renderTopComponent = () => {
-    if (selectedMovie) {
+  const { movieDetails } = useSelector((state) => state);
+  const renderTopComponent = useMemo(() => {
+    if (movieDetails.data) {
       return <MovieDetail />;
     }
     return <Search />;
-  };
+  }, [movieDetails.data]);
 
   return (
     <HomeWrapper>
-      {renderTopComponent()}
+      {renderTopComponent}
       <Content />
       <Footer />
     </HomeWrapper>
