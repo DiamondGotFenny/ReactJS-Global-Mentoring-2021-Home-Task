@@ -21,8 +21,8 @@ const formInitialValues = {
   release_date: '',
   genres: [],
   poster_path: '',
-  vote_average: '',
-  runtime: 7.0,
+  vote_average: 1,
+  runtime: 120,
   overview: '',
 };
 
@@ -32,8 +32,8 @@ const validationSchema = Yup.object().shape({
   poster_path: Yup.string().required('Poster path is required'),
   vote_average: Yup.number()
     .typeError('you must specify a number for rating')
-    .min(0)
-    .max(10),
+    .min(1, 'Rating must be greater than 1')
+    .max(10, 'Rating must be less than 10'),
   runtime: Yup.number()
     .integer()
     .typeError('rumtime must be integer')
@@ -58,7 +58,8 @@ const MovieModal = ({ isOpen, handleClose, movie, dispatch }) => {
     //we don't acutally need to use dispatch here in real scenario
     //generate a ramdom id for the movie
     actions.setSubmitting(true);
-    const formData = { ...values, genres: genres };
+    const genresArr = genres.map((genre) => genre.value);
+    const formData = { ...values, genres: genresArr };
     try {
       if (movie) {
         httpService.put(`/movies/${movie.id}`, formData);
@@ -70,9 +71,8 @@ const MovieModal = ({ isOpen, handleClose, movie, dispatch }) => {
           },
         });
       } else {
-        const id = Math.floor(Math.random() * 100000);
-        formData.id = id;
         httpService.post('/movies', formData);
+        console.log(formData, 'post');
         dispatch({
           type: 'ADD_MOVIE',
           payload: formData,
@@ -170,7 +170,7 @@ const MovieModal = ({ isOpen, handleClose, movie, dispatch }) => {
               <span className="required">Rating:</span>：
             </Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               name="vote_average"
               aria-describedby="vote_average"
               placeholder="7.8"
