@@ -10,8 +10,7 @@ import {
   StyledResults,
   ContentWrapper,
 } from '../../styledComponents/Content';
-import { moviesList } from '../../mockData/MoviesList';
-const Content = () => {
+const Content = ({ movies, setMovies }) => {
   return (
     <SectionWrapper>
       <FilterWrapper>
@@ -44,8 +43,8 @@ const Content = () => {
         <span>39</span> movies found
       </StyledResults>
       <ContentWrapper>
-        {moviesList.map((movie) => (
-          <MovieCard movie={movie} />
+        {movies.map((movie) => (
+          <MovieCard movies={movies} movie={movie} setMovies={setMovies} />
         ))}
       </ContentWrapper>
     </SectionWrapper>

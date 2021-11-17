@@ -43,7 +43,7 @@ export const StyledAddMovieButton = styled.button`
   height: 46px;
   width: 177px;
   font-family: Montserrat;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: 24px;
@@ -97,5 +97,109 @@ export const StyledSearchContainer = styled.div`
     font-style: normal;
     font-weight: 500;
     text-align: center;
+  }
+`;
+
+export const StyledMovieForm = styled.form`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 20px;
+  input {
+    width: 100%;
+  }
+  .title {
+    grid-area: title;
+  }
+  .release-date {
+    grid-area: release-date;
+  }
+  .movie-url {
+    grid-area: movie-url;
+  }
+  .rating {
+    grid-area: rating;
+  }
+  .genre {
+    grid-area: genre;
+  }
+  .runtime {
+    grid-area: runtime;
+  }
+
+  .description {
+    grid-area: description;
+  }
+  .btn-group {
+    grid-area: btn-group;
+  }
+  grid-template-areas:
+    'title title release-date'
+    'movie-url movie-url rating'
+    'genre genre runtime'
+    'description description description'
+    'btn-group btn-group btn-group';
+`;
+
+export const styledGenreDropdown = styled.div`
+  width: 200px;
+  border: 1px solid #aaa;
+  padding: 10px;
+  position: relative;
+  margin: 0 auto;
+
+  user-select: none;
+
+  &::after {
+    content: '';
+    height: 0;
+    position: absolute;
+    width: 0;
+    border: 6px solid transparent;
+    border-top-color: #000;
+    top: 50%;
+    right: 10px;
+    margin-top: -3px;
+  }
+
+  &.is-active::after {
+    border-bottom-color: #000;
+    border-top-color: #fff;
+    margin-top: -9px;
+  }
+  .genres-dropdown-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%; /* align the dropdown right below the dropdown text */
+    border: inherit;
+    border-top: none;
+    left: -1px; /* align the dropdown to the left */
+    right: -1px; /* align the dropdown to the right */
+    opacity: 0; /* hide the dropdown */
+
+    transition: opacity 0.4s ease-in-out;
+    height: 100px;
+    overflow: scroll;
+    overflow-x: hidden;
+    pointer-events: none; /* avoid mouse click events inside the dropdown */
+  }
+  .is-active .genres-dropdown-list {
+    opacity: 1; /* display the dropdown */
+    pointer-events: auto; /* make sure that the user still can select checkboxes */
+  }
+
+  .genres-dropdown-list li label {
+    display: block;
+    border-bottom: 1px solid silver;
+    padding: 10px;
+
+    transition: all 0.2s ease-out;
+  }
+
+  .genres-dropdown-list li label:hover {
+    background-color: #555;
+    color: white;
   }
 `;
