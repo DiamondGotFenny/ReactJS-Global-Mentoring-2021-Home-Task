@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import styled from 'styled-components';
 import EditMenu from './EditMenu';
-
+import moviesContext from '../Context/moviesContext';
 const StyledCardContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@ const StyledCardContainer = styled.div`
   /* identical to box height */
 
   color: #ffffff;
-
+  cursor: pointer;
   mix-blend-mode: normal;
   opacity: 0.7;
   margin: 26px;
@@ -69,40 +69,45 @@ const StyledDotsButton = styled.button`
     width: 0.25rem;
     height: 0.25rem;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 0.6rem;
     transition: all 0.3s linear;
     position: relative;
     transform-origin: 1px;
     left: 0.6rem;
   }
 `;
-const MovieCard = ({ movies, movie, setMovies }) => {
+const MovieCard = ({ movie, selectedMovieDispatch }) => {
   const { title, poster_path, genre, release_date } = movie;
   const [open, setOpen] = React.useState(false);
+
   return (
     <StyledCardContainer>
       <StyledDotsButton
-        className='menuButton'
+        className="menuButton"
         open={!open}
-        onClick={() => setOpen(true)}>
+        onClick={() => setOpen(true)}
+      >
         <div />
         <div />
         <div />
       </StyledDotsButton>
-      <EditMenu
-        open={open}
-        setOpen={setOpen}
-        movie={movie}
-        movies={movies}
-        setMovies={setMovies}
-      />
-      <img src={poster_path} alt={title} />
-      <BasicInfoWrapper>
-        <title>{title}</title>
-        <span>{release_date}</span>
-      </BasicInfoWrapper>
-      <GenreWrapper>{genre}</GenreWrapper>
+      <EditMenu open={open} setOpen={setOpen} movie={movie} />
+      <div
+        onClick={() =>
+          selectedMovieDispatch({
+            type: 'SELECT_MOVIE',
+            payload: movie,
+          })
+        }
+      >
+        <img src={poster_path} alt={title} />
+        <BasicInfoWrapper>
+          <title>{title}</title>
+          <span>{release_date}</span>
+        </BasicInfoWrapper>
+        <GenreWrapper>{genre}</GenreWrapper>
+      </div>
     </StyledCardContainer>
   );
 };
-export default MovieCard;
+export default memo(MovieCard);

@@ -1,28 +1,43 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, memo } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import Multiselect from 'multiselect-react-dropdown';
-const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
-  const genresOptions = [
-    { label: 'Action', value: 'Action' },
-    { label: 'Adventure', value: 'Adventure' },
-    { label: 'Animation', value: 'Animation' },
-    { label: 'Comedy', value: 'Comedy' },
-    { label: 'Crime', value: 'Crime' },
-    { label: 'Documentary', value: 'Documentary' },
-  ];
+
+const genresOptions = [
+  { label: 'Action', value: 'Action' },
+  { label: 'Adventure', value: 'Adventure' },
+  { label: 'Animation', value: 'Animation' },
+  { label: 'Comedy', value: 'Comedy' },
+  { label: 'Crime', value: 'Crime' },
+  { label: 'Documentary', value: 'Documentary' },
+];
+const ActiveMovieForm = ({ isOpen, handleClose, movie, dispatch }) => {
   const [formData, setFormData] = useState({});
   const formRef = useRef(null);
   const handleSubmit = (e) => {
     e.preventDefault();
     //submit data to server here
+    //we don't acutally need to use dispatch here in real scenario
     console.log(formData);
-    setMovies([...movies, formData]);
+    if (movie) {
+      dispatch({
+        type: 'UPDATE_MOVIE',
+        payload: {
+          ...formData,
+          id: movie.id,
+        },
+      });
+    } else {
+      dispatch({
+        type: 'ADD_MOVIE',
+        payload: formData,
+      });
+    }
     handleClose();
   };
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  console.log(formData);
+
   const onSelect = (selectedList, selectedItem) => {
     console.log(selectedList);
     setFormData({ ...formData, genres: selectedList });
@@ -36,6 +51,7 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
     formRef.current.reset();
     setFormData({});
   };
+  console.log('modal render');
   return (
     <Modal show={isOpen} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -43,84 +59,84 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit} ref={formRef}>
-          <Form.Group className='title' controlId='title'>
+          <Form.Group className="title" controlId="title">
             <Form.Label>
-              <span className='required'>Title:</span>：
+              <span className="required">Title:</span>：
             </Form.Label>
             <Form.Control
-              type='text'
-              name='title'
-              aria-describedby='title'
-              placeholder='Movie Title'
+              type="text"
+              name="title"
+              aria-describedby="title"
+              placeholder="Movie Title"
               onChange={handleChange}
-              value={movie?.title}
+              defaultValue={movie?.title}
             />
           </Form.Group>
-          <Form.Group className='release-date' controlId='release-date'>
+          <Form.Group className="release-date" controlId="release-date">
             <Form.Label>
-              <span className='required'>Release Date:</span>：
+              <span className="required">Release Date:</span>：
             </Form.Label>
             <Form.Control
-              type='date'
-              name='release-date'
-              aria-describedby='release-date'
-              placeholder='Select Date'
+              type="date"
+              name="release-date"
+              aria-describedby="release-date"
+              placeholder="Select Date"
               onChange={handleChange}
-              value={movie?.release_date}
+              defaultValue={movie?.release_date}
             />
           </Form.Group>
-          <Form.Group className='movie-url' controlId='movie-url'>
+          <Form.Group className="movie-url" controlId="movie-url">
             <Form.Label>
-              <span className='required'>Movie Url:</span>：
+              <span className="required">Movie Url:</span>：
             </Form.Label>
             <Form.Control
-              type='text'
-              name='movie-url'
-              aria-describedby='movie-url'
-              placeholder='htts://'
+              type="text"
+              name="movie-url"
+              aria-describedby="movie-url"
+              placeholder="htts://"
               onChange={handleChange}
-              value={movie?.poster_path}
+              defaultValue={movie?.poster_path}
             />
           </Form.Group>
-          <Form.Group className='rating' controlId='rating'>
+          <Form.Group className="rating" controlId="rating">
             <Form.Label>
-              <span className='required'>Rating:</span>：
+              <span className="required">Rating:</span>：
             </Form.Label>
             <Form.Control
-              type='text'
-              name='rating'
-              aria-describedby='rating'
-              placeholder='7.8'
+              type="text"
+              name="rating"
+              aria-describedby="rating"
+              placeholder="7.8"
               onChange={handleChange}
-              value={movie?.rating}
+              defaultValue={movie?.rating}
             />
           </Form.Group>
-          <label className='genre'>Genre:</label>
+          <label className="genre">Genre:</label>
           <Multiselect
             options={genresOptions}
             onSelect={onSelect}
             onRemove={onRemove}
-            displayValue='label'
-            placeholder='Select Genre'
+            displayValue="label"
+            placeholder="Select Genre"
           />
 
-          <Form.Group className='runtime' controlId='runtime'>
+          <Form.Group className="runtime" controlId="runtime">
             <Form.Label>
-              <span className='required'>Runtime:</span>：
+              <span className="required">Runtime:</span>：
             </Form.Label>
             <Form.Control
-              type='text'
-              name='runtime'
-              aria-describedby='runtime'
+              type="text"
+              name="runtime"
+              aria-describedby="runtime"
               onChange={handleChange}
-              value={movie?.runtime}
+              defaultValue={movie?.runtime}
             />
           </Form.Group>
           <Modal.Footer>
-            <Button variant='secondary' onClick={handleFormRest}>
+            <Button variant="secondary" onClick={handleFormRest}>
               reset
             </Button>
-            <Button variant='primary' onClick={handleClose}>
+            <Button variant="primary" onClick={handleClose}>
               Submit
             </Button>
           </Modal.Footer>
@@ -130,4 +146,4 @@ const ActiveMovieForm = ({ isOpen, handleClose, movie, movies, setMovies }) => {
   );
 };
 
-export default ActiveMovieForm;
+export default memo(ActiveMovieForm);
