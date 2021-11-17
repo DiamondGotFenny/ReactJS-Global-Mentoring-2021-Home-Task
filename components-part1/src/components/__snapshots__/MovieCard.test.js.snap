@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render movie card correctly should render without crash 1`] = `
+<styled.div
+  className="movie-card"
+>
+  <styled.button
+    className="menuButton"
+    onClick={[Function]}
+    open={true}
+  >
+    <div />
+    <div />
+    <div />
+  </styled.button>
+  <Memo(EditMenu)
+    movie={
+      Object {
+        "budget": 180000000,
+        "genres": Array [
+          "Action",
+          "Adventure",
+          "Fantasy",
+        ],
+        "id": 284053,
+        "overview": "Thor is imprisoned on the other side of the universe and finds himself in a race against time to get back to Asgard to stop Ragnarok, the prophecy of destruction to his homeworld and the end of Asgardian civilization, at the hands of an all-powerful new threat, the ruthless Hela.",
+        "poster_path": "https://image.tmdb.org/t/p/w500/rzRwTcFvttcN1ZpX2xv4j3tSdJu.jpg",
+        "release_date": "2017-10-25",
+        "revenue": 854229371,
+        "runtime": 130,
+        "tagline": "No Hammer. No Problem.",
+        "title": "Thor: Ragnarok",
+        "vote_average": 7.4,
+        "vote_count": 5349,
+      }
+    }
+    open={false}
+    setOpen={[Function]}
+  />
+  <div
+    className="click-container"
+    onClick={[Function]}
+  >
+    <img
+      alt="Thor: Ragnarok"
+      src="https://image.tmdb.org/t/p/w500/rzRwTcFvttcN1ZpX2xv4j3tSdJu.jpg"
+    />
+    <styled.div>
+      <title>
+        Thor: Ragnarok
+      </title>
+      <span>
+        2017-10-25
+      </span>
+    </styled.div>
+    <styled.div>
+      Action Adventure Fantasy
+    </styled.div>
+  </div>
+</styled.div>
+`;

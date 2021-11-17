@@ -83,7 +83,7 @@ const MovieCard = ({ movie }) => {
   const navigate = useNavigate();
 
   return (
-    <StyledCardContainer>
+    <StyledCardContainer className="movie-card">
       <StyledDotsButton
         className="menuButton"
         open={!open}
@@ -94,7 +94,10 @@ const MovieCard = ({ movie }) => {
         <div />
       </StyledDotsButton>
       <EditMenu open={open} setOpen={setOpen} movie={movie} />
-      <div onClick={() => navigate(`/search?movie=${movie.id}`)}>
+      <div
+        className="click-container"
+        onClick={() => navigate(`/search?movie=${movie.id}`)}
+      >
         <img src={poster_path} alt={title} />
         <BasicInfoWrapper>
           <title>{title}</title>

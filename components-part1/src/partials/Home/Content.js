@@ -1,4 +1,4 @@
-import React, { useState, memo, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import searchObject from 'search-object';
@@ -23,10 +23,9 @@ const Content = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const deletedMovie = useSelector((state) => state.deletedMovie);
-  console.log(deletedMovie, 'deletedMovie');
-  const [moviesList, setmoviesList] = useState([]);
+  const [moviesList, setmoviesList] = React.useState([]);
   //this is the original list of movies
-  const [movies, setMovies] = useState(null);
+  const [movies, setMovies] = React.useState(null);
 
   const handleSortMovies = (movies, sortBy) => {
     if (sortBy === 'vote_average') {
@@ -54,7 +53,7 @@ const Content = () => {
     };
     fetchData();
   }, []);
-  console.log(movies, 'movies');
+
   useEffect(() => {
     if (queryObj.sortBy) {
       const sortedMovies = handleSortMovies(moviesList, queryObj.sortBy);
@@ -63,7 +62,7 @@ const Content = () => {
   }, [queryObj.sortBy]);
 
   useEffect(() => {
-    if (movies && !queryObj.searchQuery) {
+    if (movies && !params.searchQuery) {
       setmoviesList(movies.data);
     }
     if (movies && params.searchQuery) {
@@ -76,6 +75,15 @@ const Content = () => {
       setmoviesList(handleSearchQuery(movies.data, queryObj.genre));
     }
   }, [movies, queryObj.genre]);
+
+  useEffect(() => {
+    if (deletedMovie) {
+      const filteredMovies = moviesList.filter(
+        (movie) => movie.id !== deletedMovie
+      );
+      setmoviesList(filteredMovies);
+    }
+  }, [deletedMovie]);
 
   const handleSearchQuery = (movies, query) => {
     const filteredMovies = movies
@@ -106,7 +114,7 @@ const Content = () => {
     navigate({ search: newQueryStr });
   };
   return (
-    <SectionWrapper>
+    <SectionWrapper className="content">
       <FilterWrapper>
         <ul>
           <li onClick={() => handleGenreClick('all')}>
@@ -121,10 +129,11 @@ const Content = () => {
           <li onClick={() => handleGenreClick('Adventure')}>
             <FilterButton>Adventure</FilterButton>
           </li>
-          <li onClick={() => handleGenreClick('Action')}>
+          <li data-testid="Action" onClick={() => handleGenreClick('Action')}>
             <FilterButton>Action</FilterButton>
           </li>
         </ul>
+
         <SortWrapper>
           <SortSpan>Sort by</SortSpan>
           <SortSelect onChange={handleInputChange} defaultValue="release_date">
@@ -133,9 +142,9 @@ const Content = () => {
           </SortSelect>
         </SortWrapper>
       </FilterWrapper>
-      <StyledResults>
-        <span>{moviesList.length > 0 ? moviesList.length : 0}</span> movies
-        found
+      <StyledResults className="moviesList-counts">
+        <span>{moviesList.length > 0 ? moviesList.length : 0}</span>{' '}
+        {moviesList.length > 1 ? 'movies' : 'movie'} found
       </StyledResults>
       <ContentWrapper>
         {moviesList.map((movie) => (

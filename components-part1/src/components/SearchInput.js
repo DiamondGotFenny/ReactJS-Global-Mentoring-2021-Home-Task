@@ -34,7 +34,9 @@ const SearchInput = () => {
         onChange={(e) => setQuery(e.target.value)}
         value={query}
       />
-      <button onClick={handleSearch}>Search</button>
+      <button className="submit-search" onClick={handleSearch}>
+        Search
+      </button>
     </StyledSearchContainer>
   );
 };

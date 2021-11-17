@@ -13,8 +13,13 @@ Object.defineProperty(ReactRouter, 'useLocation', {
   writable: true,
 });
 
+const setup = (props = {}) => {
+  const component = shallow(<Home {...props} />);
+  return component;
+};
+
 describe('Home', () => {
-  it('renders Search correctly', () => {
+  it('renders Search correctly when url without movieId query', () => {
     const mockLocation_withoutMovieId = {
       pathname: '/',
       state: {},
@@ -25,11 +30,11 @@ describe('Home', () => {
     const useLocationSpy = jest
       .spyOn(ReactRouter, 'useLocation')
       .mockReturnValue(mockLocation_withoutMovieId);
-    const wrapper = shallow(<Home />);
+    const wrapper = setup();
     expect(useLocationSpy).toHaveBeenCalled();
     expect(toJson(wrapper)).toMatchSnapshot();
   });
-  it('renders MovieDetail correctly with movieId', () => {
+  it('renders MovieDetail correctly with movieId query', () => {
     const mockLocation_withMovieId = {
       pathname: '/',
       state: {},
@@ -40,7 +45,7 @@ describe('Home', () => {
     const useLocationSpy = jest
       .spyOn(ReactRouter, 'useLocation')
       .mockReturnValue(mockLocation_withMovieId);
-    const wrapper = shallow(<Home />);
+    const wrapper = setup();
     expect(useLocationSpy).toHaveBeenCalled();
     expect(toJson(wrapper)).toMatchSnapshot();
   });
@@ -55,7 +60,7 @@ describe('Home', () => {
     const useLocationSpy = jest
       .spyOn(ReactRouter, 'useLocation')
       .mockReturnValue(mockLocation_withoutMovieId);
-    const wrapper = shallow(<Home />);
+    const wrapper = setup();
     expect(wrapper.containsMatchingElement(<Content />)).toEqual(true);
   });
   it('renders Footer component', () => {
@@ -69,7 +74,7 @@ describe('Home', () => {
     const useLocationSpy = jest
       .spyOn(ReactRouter, 'useLocation')
       .mockReturnValue(mockLocation_withoutMovieId);
-    const wrapper = shallow(<Home />);
+    const wrapper = setup();
     expect(wrapper.containsMatchingElement(<Footer />)).toEqual(true);
   });
 });

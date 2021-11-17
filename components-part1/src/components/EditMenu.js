@@ -1,10 +1,9 @@
 import React, { useState, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import MovieModal from './MovieModal';
-
 import httpService from '../services/httpService';
-import { DELETE_MOVIE_FROM_LIST } from '../constants/constantsVarables';
+import { deleteMovie } from '../actions/moviesActions';
 
 const StyledMenu = styled.nav`
   display: ${({ open }) => (open ? 'inline-flex;' : 'none;')};
@@ -52,11 +51,11 @@ const EditMenu = ({ open, setOpen, movie }) => {
   };
   const handleDelete = async (id) => {
     try {
-      httpService.delete(`/movies/${id}`);
+      await httpService.delete(`/movies/${id}`);
+      dispatch(deleteMovie(id));
     } catch (error) {
       alert(error);
     }
-    dispatch({ type: DELETE_MOVIE_FROM_LIST, payload: id });
   };
   const renderForm = React.useMemo(() => {
     return (

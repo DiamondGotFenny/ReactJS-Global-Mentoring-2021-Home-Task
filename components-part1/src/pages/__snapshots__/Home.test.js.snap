@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home renders MovieDetail correctly with movieId 1`] = `
-<styled.div>
+exports[`Home renders MovieDetail correctly with movieId query 1`] = `
+<styled.div
+  className="homePage-Wrapper"
+>
   <MovieDetail
     movieId="1"
   />
@@ -10,8 +12,10 @@ exports[`Home renders MovieDetail correctly with movieId 1`] = `
 </styled.div>
 `;
 
-exports[`Home renders Search correctly 1`] = `
-<styled.div>
+exports[`Home renders Search correctly when url without movieId query 1`] = `
+<styled.div
+  className="homePage-Wrapper"
+>
   <Memo(Search) />
   <Memo(Content) />
   <Footer />

@@ -77,7 +77,6 @@ const MovieDetail = ({ movieId }) => {
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
-      console.log('movieId', movieId);
       try {
         const { data } = await httpService.get(`/movies/${movieId}`);
         setMovieDetails(data);
@@ -92,7 +91,7 @@ const MovieDetail = ({ movieId }) => {
   }
 
   return (
-    <StyledMovieDetailWrapper>
+    <StyledMovieDetailWrapper className="movieDetails-Wrapper">
       <Logo />
       <button className="search-btn" onClick={() => navigate('/search')}>
         Search
