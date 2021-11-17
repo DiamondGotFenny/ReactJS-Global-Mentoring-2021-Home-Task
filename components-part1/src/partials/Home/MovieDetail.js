@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovieDetails } from '../../actions/moviesActions';
 import styled from 'styled-components';
 import Logo from '../../components/Logo';
+import httpService from '../../services/httpService';
 
 const StyledMovieDetailWrapper = styled.div`
   height: 396px;
@@ -71,43 +71,46 @@ const StyledMovieDetailWrapper = styled.div`
   color: #fff;
 `;
 
-const MovieDetail = () => {
-  const dispatch = useDispatch();
-  const { movieDetails } = useSelector((state) => state);
-  console.log(movieDetails, 'movieDetails');
-  const {
-    title,
-    tagline,
-    poster_path,
-    genres,
-    release_date,
-    overview,
-    runtime,
-    vote_average,
-  } = movieDetails.data;
+const MovieDetail = ({ movieId }) => {
+  const navigate = useNavigate();
+  const [movieDetails, setMovieDetails] = React.useState(null);
+
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      console.log('movieId', movieId);
+      try {
+        const { data } = await httpService.get(`/movies/${movieId}`);
+        setMovieDetails(data);
+      } catch (error) {
+        alert(error);
+      }
+    };
+    fetchMovieDetails();
+  }, [movieId]);
+  if (!movieDetails) {
+    return <StyledMovieDetailWrapper>No Found</StyledMovieDetailWrapper>;
+  }
+
   return (
     <StyledMovieDetailWrapper>
       <Logo />
-      <button
-        className="search-btn"
-        onClick={() => dispatch(fetchMovieDetails(null))}
-      >
+      <button className="search-btn" onClick={() => navigate('/search')}>
         Search
       </button>
-      <Image className="poster" src={poster_path} />
+      <Image className="poster" src={movieDetails.poster_path} />
       <div className="info-container">
         <div className="col-1">
-          <h2 className="title">{`${title}:${tagline}`}</h2>
-          <p className="rating">{vote_average}</p>
+          <h2 className="title">{`${movieDetails.title}:${movieDetails.tagline}`}</h2>
+          <p className="rating">{movieDetails.vote_average}</p>
         </div>
 
-        <p className="genre">{genres.join(',')}</p>
+        <p className="genre">{movieDetails.genres.join(' ')}</p>
         <div className="col-2">
-          <p className="release-date">{release_date}</p>
-          <p className="runtime">{runtime} mints</p>
+          <p className="release-date">{movieDetails.release_date}</p>
+          <p className="runtime">{movieDetails.runtime} mints</p>
         </div>
 
-        <p className="desc">{overview}</p>
+        <p className="desc">{movieDetails.overview}</p>
       </div>
     </StyledMovieDetailWrapper>
   );

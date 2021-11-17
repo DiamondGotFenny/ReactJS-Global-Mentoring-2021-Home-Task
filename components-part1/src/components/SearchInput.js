@@ -1,10 +1,27 @@
-import React, { useState, memo } from 'react';
+import React, { useEffect, useState, memo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { StyledSearchContainer } from '../styledComponents/Search';
+
 const SearchInput = () => {
   const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+  const params = useParams();
   const handleSearch = () => {
-    console.log(query);
+    //first we get the query string from the input value, then we push it to the url
+    if (query) {
+      navigate(`/search/${query}`);
+    } else {
+      navigate(`/search`);
+    }
   };
+
+  //we check if the query string is in the url every time the component renders
+  //if it is we set the query string to the query state
+  useEffect(() => {
+    if (params.searchQuery) {
+      setQuery(params.searchQuery);
+    }
+  }, [params.searchQuery]);
 
   return (
     <StyledSearchContainer>

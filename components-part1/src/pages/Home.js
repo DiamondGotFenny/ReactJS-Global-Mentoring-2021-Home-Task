@@ -1,5 +1,6 @@
-import React, { memo, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { memo } from 'react';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 import Content from '../partials/Home/Content';
 import Footer from '../partials/Home/Footer';
 import Search from '../partials/Home/Search';
@@ -12,17 +13,16 @@ const HomeWrapper = styled.div`
 `;
 
 const Home = () => {
-  const { movieDetails } = useSelector((state) => state);
-  const renderTopComponent = useMemo(() => {
-    if (movieDetails.data) {
-      return <MovieDetail />;
-    }
-    return <Search />;
-  }, [movieDetails.data]);
+  const queryParams = queryString.parse(useLocation().search);
 
   return (
     <HomeWrapper>
-      {renderTopComponent}
+      {queryParams.movie ? (
+        <MovieDetail movieId={queryParams.movie} />
+      ) : (
+        <Search />
+      )}
+
       <Content />
       <Footer />
     </HomeWrapper>

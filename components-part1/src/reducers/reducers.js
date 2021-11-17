@@ -7,6 +7,7 @@ import {
   SORTING_BY_RATING,
   SORTING_BY_RELEASE_DATE,
   FILTER_BY_GENRE,
+  DELETE_MOVIE_FROM_LIST,
 } from '../constants/constantsVarables';
 
 const moviesListReducer = (
@@ -60,10 +61,19 @@ const filterReducer = (state = {}, action) => {
       return state;
   }
 };
+const deleteMovieReducer = (state = '', action) => {
+  switch (action.type) {
+    case DELETE_MOVIE_FROM_LIST:
+      return action.payload;
+    default:
+      return state;
+  }
+};
 const reduers = combineReducers({
   movies: moviesListReducer,
   movieDetails: movieDetailsReducer,
   sortedMovies: sortingReducer,
   filteredMovies: filterReducer,
+  deletedMovie: deleteMovieReducer,
 });
 export default reduers;

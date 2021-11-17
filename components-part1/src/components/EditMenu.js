@@ -1,8 +1,10 @@
-import React, { useState, useContext, memo } from 'react';
+import React, { useState, memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import MovieModal from './MovieModal';
-import moviesContext from '../Context/moviesContext';
+
 import httpService from '../services/httpService';
+import { DELETE_MOVIE_FROM_LIST } from '../constants/constantsVarables';
 
 const StyledMenu = styled.nav`
   display: ${({ open }) => (open ? 'inline-flex;' : 'none;')};
@@ -40,8 +42,8 @@ const StyledMenu = styled.nav`
 `;
 
 const EditMenu = ({ open, setOpen, movie }) => {
-  const { dispatch } = useContext(moviesContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
   const handleClose = () => {
     setIsModalOpen(false);
   };
@@ -54,7 +56,7 @@ const EditMenu = ({ open, setOpen, movie }) => {
     } catch (error) {
       alert(error);
     }
-    dispatch({ type: 'DELETE_MOVIE', payload: id });
+    dispatch({ type: DELETE_MOVIE_FROM_LIST, payload: id });
   };
   const renderForm = React.useMemo(() => {
     return (
@@ -62,7 +64,6 @@ const EditMenu = ({ open, setOpen, movie }) => {
         isOpen={isModalOpen}
         handleClose={handleClose}
         movie={movie}
-        dispatch={dispatch}
       />
     );
   }, [movie, isModalOpen, dispatch]);

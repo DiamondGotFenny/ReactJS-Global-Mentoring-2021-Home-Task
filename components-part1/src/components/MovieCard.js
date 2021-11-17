@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import EditMenu from './EditMenu';
-import { useDispatch } from 'react-redux';
-import { fetchMovieDetails } from '../actions/moviesActions';
+
 const StyledCardContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -80,7 +80,7 @@ const StyledDotsButton = styled.button`
 const MovieCard = ({ movie }) => {
   const { title, poster_path, genres, release_date } = movie;
   const [open, setOpen] = React.useState(false);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <StyledCardContainer>
@@ -94,7 +94,7 @@ const MovieCard = ({ movie }) => {
         <div />
       </StyledDotsButton>
       <EditMenu open={open} setOpen={setOpen} movie={movie} />
-      <div onClick={() => dispatch(fetchMovieDetails(movie))}>
+      <div onClick={() => navigate(`/search?movie=${movie.id}`)}>
         <img src={poster_path} alt={title} />
         <BasicInfoWrapper>
           <title>{title}</title>
