@@ -7,7 +7,7 @@ import {
   StyledSearchTitle,
   StyledAddMovieButton,
 } from '../../styledComponents/Search';
-import ActiveMovieForm from '../../components/MovieModal';
+import MovieModal from '../../components/MovieModal';
 import SearchInput from '../../components/SearchInput';
 
 const Search = () => {
@@ -27,11 +27,7 @@ const Search = () => {
         <StyledAddMovieButton onClick={handleOpen}>
           + ADD MOVIE'
         </StyledAddMovieButton>
-        <ActiveMovieForm
-          isOpen={isOpen}
-          handleClose={handleClose}
-          movie={null}
-        />
+        <MovieModal isOpen={isOpen} handleClose={handleClose} movie={null} />
       </StyledHeader>
       <StyledSearchTitle>FIND YOUR MOVIE</StyledSearchTitle>
       <SearchInput />

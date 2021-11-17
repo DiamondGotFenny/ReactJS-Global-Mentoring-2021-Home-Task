@@ -2,14 +2,14 @@ import styled from 'styled-components';
 
 export const SearchWrapper = styled.section`
   height: 396px;
-  width: 1260px;
+  width: 100%;
 
   &::before {
     content: '';
     position: absolute;
     left: 0;
     top: 0;
-    width: 1260px;
+    width: 100%;
     height: 396px;
     z-index: -1;
     border-radius: 0px;
@@ -24,7 +24,7 @@ export const SearchWrapper = styled.section`
     position: absolute;
     left: 0;
     top: 0;
-    width: 1260px;
+    width: 100%;
     height: 396px;
     background: linear-gradient(0deg, #000000, #000000);
     opacity: 0.6;
