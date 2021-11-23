@@ -18,6 +18,11 @@ const setup = (props = {}) => {
   return component;
 };
 
+//should clear spy after the test finished, as the same spy used in multiple tests.
+afterAll(() => {
+  jest.clearAllMocks();
+});
+
 describe('Home', () => {
   it('renders Search correctly when url without movieId query', () => {
     const mockLocation_withoutMovieId = {
@@ -33,6 +38,7 @@ describe('Home', () => {
     const wrapper = setup();
     expect(useLocationSpy).toHaveBeenCalled();
     expect(toJson(wrapper)).toMatchSnapshot();
+    useLocationSpy.mockClear();
   });
   it('renders MovieDetail correctly with movieId query', () => {
     const mockLocation_withMovieId = {
@@ -48,6 +54,7 @@ describe('Home', () => {
     const wrapper = setup();
     expect(useLocationSpy).toHaveBeenCalled();
     expect(toJson(wrapper)).toMatchSnapshot();
+    useLocationSpy.mockClear();
   });
   it('renders Content component', () => {
     const mockLocation_withoutMovieId = {
@@ -62,6 +69,7 @@ describe('Home', () => {
       .mockReturnValue(mockLocation_withoutMovieId);
     const wrapper = setup();
     expect(wrapper.containsMatchingElement(<Content />)).toEqual(true);
+    useLocationSpy.mockClear();
   });
   it('renders Footer component', () => {
     const mockLocation_withoutMovieId = {
@@ -76,5 +84,6 @@ describe('Home', () => {
       .mockReturnValue(mockLocation_withoutMovieId);
     const wrapper = setup();
     expect(wrapper.containsMatchingElement(<Footer />)).toEqual(true);
+    useLocationSpy.mockClear();
   });
 });

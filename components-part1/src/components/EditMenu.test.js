@@ -46,6 +46,8 @@ const renderWithRedux = (component, store) => {
 
 function makeTestStore(opts = {}) {
   const origDispatch = store.dispatch;
+  const origReducers = store.reducers;
+  store.reducers = jest.fn(origReducers);
   store.dispatch = jest.fn(origDispatch);
   return store;
 }
@@ -59,8 +61,10 @@ it('dispatch deletedMovie id after deleted button cliced', async () => {
     <EditMenu open={true} setOpen={jest.fn} movie={mockMovie} />,
     store
   );
+  expect(store.getState().deletedMovie).toBe('');
   const deleteButton = screen.getByText('Delete');
   fireEvent.click(deleteButton);
   await waitFor(() => expect(httpService.delete).toHaveBeenCalledTimes(1));
   expect(store.dispatch).toHaveBeenCalled();
+  expect(store.getState().deletedMovie).toBe(mockMovie.id);
 });
