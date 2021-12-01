@@ -1,0 +1,73 @@
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 323px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+  color: #ffffff;
+  cursor: pointer;
+  mix-blend-mode: normal;
+  opacity: 0.7;
+  margin: 26px;
+}
+.movie-card img {
+  width: 323px;
+}
+.movie-card :hover .menuButton {
+  display: flex;
+}
+
+.menuButton {
+  position: absolute;
+  transform: translate(8rem, -15rem);
+  display: none;
+  width: 2rem;
+  height: 2rem;
+  flex-direction: column;
+  justify-content: space-around;
+  background: #2a202d;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  z-index: 5;
+}
+
+.menuButton :focus {
+  outline: none;
+}
+
+.menuButton div {
+  width: 0.25rem;
+  height: 0.25rem;
+  background: #fff;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
+  left: 0.6rem;
+}
+
+.BasicInfoWrapper {
+  margin-top: 26px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.BasicInfoWrapper title {
+  display: flex;
+}
+
+.GenreWrapper {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  margin-top: 6px;
+}

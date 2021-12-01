@@ -1,0 +1,77 @@
+.movieDetails-Wrapper {
+  height: 396px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  grid-template-areas:
+    'logo . . search'
+    'poster poster info info'
+    'poster poster info info';
+  margin: 0;
+  background-color: #232323;
+  color: #fff;
+}
+
+.movieDetails-Wrapper .logo-container {
+  grid-area: logo;
+  padding-top: 20px;
+}
+
+.movieDetails-Wrapper .search-btn {
+  grid-area: search;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #f65261;
+}
+
+.movieDetails-Wrapper .poster {
+  grid-area: poster;
+  width: 220px;
+  height: auto;
+  transform: translateX(25%);
+}
+
+.movieDetails-Wrapper .info-container {
+  grid-area: info;
+  width: 880px;
+  height: auto;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-container .col-1,
+.info-container .col-2 {
+  width: 100%;
+  display: flex;
+}
+
+.info-container .rating {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  border: 1px solid #fff;
+  font-size: 18px;
+  line-height: 35px;
+  text-align: center;
+}
+
+.info-container .genre {
+  text-align: left;
+}
+
+.info-container .runtime {
+  margin-left: 10px;
+}
+
+.info-container .release-date,
+.info-container .runtime {
+  color: #f65261;
+}
+.info-container .desc {
+  margin-top: 10px;
+  text-align: left;
+}
