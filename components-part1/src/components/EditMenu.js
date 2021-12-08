@@ -40,25 +40,24 @@ const StyledMenu = styled.nav`
   }
   z-index: 10;
 `;
-
+const deleteMovieReq= async (movieId) => {
+  const { data } = await httpService.delete(`/movies/${movieId}`);
+  return data;
+};
 const EditMenu = ({ open, setOpen, movie }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const {isLoading:isDeletingMovie,mutate: deleteMovieReq} = useMutation(
-    async () => {
-      const {data} = await httpService.delete(`/movies/${movie.id}`);
-      return data;
-    },
-   { enabled:false,
-    onSuccess: () => {
-      dispatch(deleteMovie(movie.id));
-    },
-    onError: (error) => {
-      alert(error.message);
-    },
-  }
-
+  const {isLoading:isDeletingMovie,mutate:handleDelteMovie} = useMutation(
+    deleteMovieReq,
+    { enabled:false,
+      onSuccess: () => {
+        dispatch(deleteMovie(movie.id));
+      },
+      onError: (error) => {
+        alert(error.message);
+      },
+    }
   );
 
   const handleClose = () => {
@@ -84,7 +83,7 @@ const EditMenu = ({ open, setOpen, movie }) => {
           X
         </button>
         <button onClick={handleOpen}>Edit</button>
-        <button onClick={() => deleteMovieReq()}>Delete</button>
+        <button onClick={() => handleDelteMovie(movie.id)}>Delete</button>
       </StyledMenu>
       {renderForm}
     </>
