@@ -40,10 +40,7 @@ const StyledMenu = styled.nav`
   }
   z-index: 10;
 `;
-const deleteMovieReq= async (id) => {
-  const {data} = await httpService.delete(`/movies/${id}`);
-  return data;
-}
+
 const EditMenu = ({ open, setOpen, movie }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -70,14 +67,7 @@ const EditMenu = ({ open, setOpen, movie }) => {
   const handleOpen = () => {
     setIsModalOpen(true);
   };
-/*   const handleDelete = async (id) => {
-    try {
-      await httpService.delete(`/movies/${id}`);
-      dispatch(deleteMovie(id));
-    } catch (error) {
-      alert(error);
-    }
-  }; */
+
   const renderForm = React.useMemo(() => {
     return (
       <MovieModal
