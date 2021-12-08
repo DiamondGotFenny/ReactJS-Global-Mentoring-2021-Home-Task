@@ -54,7 +54,7 @@ exports[`render movie card correctly should render without crash 1`] = `
       </span>
     </styled.div>
     <styled.div>
-      Action Adventure Fantasy
+      Action,Adventure,Fantasy
     </styled.div>
   </div>
 </styled.div>

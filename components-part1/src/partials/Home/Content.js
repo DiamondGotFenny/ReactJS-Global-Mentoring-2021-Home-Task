@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import searchObject from 'search-object';
 import queryString from 'query-string';
+import {useQuery } from 'react-query';
 import MovieCard from '../../components/MovieCard';
 import {
   SectionWrapper,
@@ -27,6 +28,21 @@ const Content = () => {
   //this is the original list of movies
   const [movies, setMovies] = React.useState(null);
 
+  const FetchData= async () => {
+    const {data} = await httpService.get(`/movies`);
+    return data;
+  }
+const {isLoading }=useQuery('movies',FetchData,{
+  enabled:true,
+  onSuccess:data=>{
+    setMovies(data);
+    setmoviesList(data.data);
+  },
+  onError:err=>{
+    alert(err.message);
+  }
+});
+
   const handleSortMovies = (movies, sortBy) => {
     if (sortBy === 'vote_average') {
       const sortedMovies = movies.sort(
@@ -40,19 +56,6 @@ const Content = () => {
       return sortedMovies;
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await httpService.get('/movies');
-        setMovies(data);
-        setmoviesList(data.data);
-      } catch (error) {
-        alert(error);
-      }
-    };
-    fetchData();
-  }, []);
 
   useEffect(() => {
     if (queryObj.sortBy) {
@@ -147,6 +150,7 @@ const Content = () => {
         {moviesList.length > 1 ? 'movies' : 'movie'} found
       </StyledResults>
       <ContentWrapper>
+        {isLoading&&<div className='text-danger'>Loading...</div>}
         {moviesList.map((movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}

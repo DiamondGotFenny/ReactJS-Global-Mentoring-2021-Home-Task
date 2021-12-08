@@ -11,6 +11,8 @@ import GlobalStyle from './styledComponents/GlobalNomalized';
 import ErrorBoundary from './ErrorBoundary ';
 import reducers from './reducers/reducers';
 
+import { QueryClient, QueryClientProvider } from "react-query";
+const queryClient = new QueryClient() 
 const store = createStore(reducers, applyMiddleware(thunk));
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +20,9 @@ ReactDOM.render(
       <GlobalStyle />
       <ErrorBoundary>
         <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
           <App />
+          </QueryClientProvider>
         </Provider>
       </ErrorBoundary>
     </React.Fragment>

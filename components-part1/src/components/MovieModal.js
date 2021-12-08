@@ -100,7 +100,6 @@ const MovieModal = ({ isOpen, handleClose, movie, dispatch }) => {
     setGenres(selectedList);
   };
 
-  console.log('modal render');
   return (
     <Modal show={isOpen} onHide={handleClose}>
       <Modal.Header closeButton>

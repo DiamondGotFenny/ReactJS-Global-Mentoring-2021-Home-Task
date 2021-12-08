@@ -1,5 +1,6 @@
 import React, { useState, memo } from 'react';
 import { useDispatch } from 'react-redux';
+import {useMutation } from 'react-query';
 import styled from 'styled-components';
 import MovieModal from './MovieModal';
 import httpService from '../services/httpService';
@@ -39,24 +40,44 @@ const StyledMenu = styled.nav`
   }
   z-index: 10;
 `;
-
+const deleteMovieReq= async (id) => {
+  const {data} = await httpService.delete(`/movies/${id}`);
+  return data;
+}
 const EditMenu = ({ open, setOpen, movie }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
+
+  const {isLoading:isDeletingMovie,mutate: deleteMovieReq} = useMutation(
+    async () => {
+      const {data} = await httpService.delete(`/movies/${movie.id}`);
+      return data;
+    },
+   { enabled:false,
+    onSuccess: () => {
+      dispatch(deleteMovie(movie.id));
+    },
+    onError: (error) => {
+      alert(error.message);
+    },
+  }
+
+  );
+
   const handleClose = () => {
     setIsModalOpen(false);
   };
   const handleOpen = () => {
     setIsModalOpen(true);
   };
-  const handleDelete = async (id) => {
+/*   const handleDelete = async (id) => {
     try {
       await httpService.delete(`/movies/${id}`);
       dispatch(deleteMovie(id));
     } catch (error) {
       alert(error);
     }
-  };
+  }; */
   const renderForm = React.useMemo(() => {
     return (
       <MovieModal
@@ -73,7 +94,7 @@ const EditMenu = ({ open, setOpen, movie }) => {
           X
         </button>
         <button onClick={handleOpen}>Edit</button>
-        <button onClick={() => handleDelete(movie.id)}>Delete</button>
+        <button onClick={() => deleteMovieReq()}>Delete</button>
       </StyledMenu>
       {renderForm}
     </>
