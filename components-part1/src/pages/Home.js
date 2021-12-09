@@ -22,7 +22,6 @@ const Home = () => {
       ) : (
         <Search />
       )}
-
       <Content />
       <Footer />
     </HomeWrapper>
